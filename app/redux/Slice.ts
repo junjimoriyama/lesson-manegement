@@ -19,8 +19,8 @@ const initialState = {
   dayInfo: <selectedDayProp>{}
 }
 
-export const modalSlice = createSlice({
-  name: 'cart',
+export const calendarSlice = createSlice({
+  name: 'day',
   initialState,
   reducers: {
     getModalContent(state, action) {
@@ -40,9 +40,9 @@ export const modalSlice = createSlice({
   }
 })
 
-export const {getModalContent,} = modalSlice.actions
+export const {getModalContent,} = calendarSlice.actions
 
-export default modalSlice.reducer
+export default calendarSlice.reducer
 
 // export const PageSlice = createSlice({
 //   name: 'page',

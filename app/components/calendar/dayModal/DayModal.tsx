@@ -14,42 +14,30 @@ export const DayModal: React.FC<CalendarProps> = ({
   day,
   modalOpen,
   setModalOpen,
-  onReceiveContent,
-  displayLessonContents
-}) => {
+}) => { 
 
-  const {dayInfo} = useAppSelector((state) => state.modal)
+  const {dayInfo} = useAppSelector((state) => state.calendar)
   const dispatch = useAppDispatch();
 
-  // const [ lessonContent, setLessonContent ] = useState<{[key: number]: {[key: number]: string}}>({})
-
-
-  const handleSave = () => {
-    // onReceiveContent(lessonContent)
-    setModalOpen(false)
-  }
-
+  // 入力したら
   const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(getModalContent({
       month,
       day,
       content: e.target.value
     }))
-    // dispatch(getModalContent(e.target.value))
-    // setLessonContent(e.target.value);
   };
-  // const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
-  //   setLessonContent(e.target.value);
-  //   // setLessonContent(prev => ({
-  //   //   ...prev,
-  //   //   [month]: {
-  //   //     ...(prev[month] || {}),
-  //   //     [day]: e.target.value
-  //   //   }
-  //   // }));
-  // };
-  
 
+  // キャンセルボタンクリック
+  const handleCancelBtnClick = () => {
+    setModalOpen(false)
+    dispatch(getModalContent({
+      month,
+      day,
+      content: ''
+    }))
+  }
+  
   return (
     <>
     <div className={`mask ${modalOpen ? 'isOpen' : ''}`}></div>
@@ -61,21 +49,20 @@ export const DayModal: React.FC<CalendarProps> = ({
         <input 
         className="modalInput" 
         type="text"
-        // value={lessonContent[month]?.[day] || ''}
+        value={dayInfo[month]?.[day] || ''}
         onChange={(e) => handleInput(e)}
         />
       </div>
       <div className="modalBtns">
         <div 
         className="decisionBtn"
-        onClick={
-          handleSave
+        onClick={() => setModalOpen(false)
         }
         >はい</div>
         <div 
         className="cancelBtn"
         onClick={() => {
-          setModalOpen(false)
+          handleCancelBtnClick()
         }}
         >いいえ</div>
       </div>

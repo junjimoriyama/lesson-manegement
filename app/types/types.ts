@@ -6,8 +6,6 @@ export interface CalendarProps {
   day: number
   modalOpen: boolean 
   setModalOpen: (open: boolean) => void
-  onReceiveContent: any
-  displayLessonContents: {[key: number]: {[key: number]: string}}
 }
 
 // export interface DayModalProps {
