@@ -9,13 +9,15 @@ import { SignOutButton } from "./authPage/components/signOutButton/SignOutButton
 import { UserAvatar } from "./authPage/components/UserAvatar";
 
 import './home.scss'
+import { redirect } from "next/navigation";
+import { auth } from "@/auth";
 
-
-export default function Home() {
-
-
-
-
+export default async function Home() {
+  const session = await auth()
+  if(!session) {
+    redirect('/authPage')
+  }
+  
   return (
     <div className={styles.homeBackground}>
     <div className="head">
