@@ -1,60 +1,71 @@
-// import { getModalContent } from '@/app/redux/Slice';
+import { supabase } from '@/utils/supabase';
+import { Calendar } from './../components/calendar/Calendar';
+import { fetchSupabaseData } from '@/utils/supabaseFunk';
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-// import { pageInitialState } from './common/hooks';
 
-
-// const initialState = {
-//   contents: ""
-// }
-const date = new Date()
-const currentMonth = date.getMonth() + 1
-const currentDay = date.getDate() + 1
-
-interface selectedDayProp {
+interface dayContentProp {
   [month: number]:
-  {[day: number]: string},
+  { [day: number]: string },
 }
 
 const initialState = {
-  dayInfo: <selectedDayProp>{}
+  dayInfo: <dayContentProp>{},
 }
 
 export const calendarSlice = createSlice({
   name: 'day',
   initialState,
+
+  // データベース接続
+  extraReducers(builder) {
+    builder.addCase(fetchSupabaseData.fulfilled, (state, action) => {
+      const dayMapData: dayContentProp = {}
+      action.payload.forEach((data: {month: number, day: number, contents: string}) => {
+        if(!dayMapData[data.month]) {
+          dayMapData[data.month] = {}
+        }
+        dayMapData[data.month][data.day] = data.contents
+      })
+      state.dayInfo = dayMapData
+    })
+  },
   reducers: {
-    getModalContent(state, action) {
-      const {month, day, content} = action.payload
-      if(!state.dayInfo[month]) {
-          state.dayInfo[month] = {}
+    getDayContent(state, action) {
+      const { month, day, content } = action.payload
+      if (!state.dayInfo[month]) {
+        state.dayInfo[month] = {}
       }
       state.dayInfo[month][day] = content
     },
-    // selectedDay(state, action) {
-    //   const {month, day} = action.payload;
-    
-    //   if (!state.dayInfo[month]) {
-    //     state.dayInfo[month] = {};
-    //   }
-    // }
+
+    toggleSelectedDay(state, action) {
+      const { month, day } = action.payload
+      if (!state.dayInfo[month]) {
+        state.dayInfo[month] = {}
+      }
+
+    },
+    deleteDay(state, action) {
+      const { month, day } = action.payload;
+      if (state.dayInfo[month]) {
+        const newDayInfo = state.dayInfo[month]
+        delete state.dayInfo[month][day]
+        state.dayInfo[month] = newDayInfo
+      }
+      delete state.dayInfo[month][day]
+    },
+    calcTotalPrice(state, action) {
+      const { month, day } = action.payload;
+      
+    },
+    calcEachPrice(state, action) {
+
+    },
   }
 })
 
-export const {getModalContent,} = calendarSlice.actions
+export const { getDayContent, toggleSelectedDay, deleteDay, calcTotalPrice, calcEachPrice } = calendarSlice.actions
 
 export default calendarSlice.reducer
 
-// export const PageSlice = createSlice({
-//   name: 'page',
-//   initialState: { page: 'all' } as pageInitialState,
 
-//   reducers: {
-//     selectedNumber: (state, action: PayloadAction<number | string>) => {
-//       state.page = action.payload;
-//     },
-//   },
-// });
-
-// export const { selectedNumber } = PageSlice.actions;
-
-// export default PageSlice.reducer;
