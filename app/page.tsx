@@ -13,10 +13,10 @@ import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 
 export default async function Home() {
-  redirect('/authPage')
-  // const session = await auth()
-  // if(!session) {
-  // }
+  const session = await auth()
+  if(!session) {
+    redirect('/authPage')
+  }
   
   return (
     <div className={styles.homeBackground}>
