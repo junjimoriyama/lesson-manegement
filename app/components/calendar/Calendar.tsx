@@ -1,14 +1,14 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import "./calendar.scss";
 import { DayModal } from "./dayModal/DayModal";
-import { CalendarProps } from "../../types/types";
 import { useAppDispatch, useAppSelector } from "@/app/redux/common/hooks";
 import { toggleSelectedDay } from "@/app/redux/Slice";
 import { Price } from "./price/Price";
 import { fetchSupabaseData } from "@/utils/supabaseFunk";
-import { noSSR } from "next/dynamic";
+import { SelectMonth } from "./selectMonth/SelectMonth"
+
 export const Calendar = () => {
   const date = new Date();
   const [year, setYear] = useState(date.getFullYear());
@@ -92,35 +92,36 @@ export const Calendar = () => {
     setWeeks(generatedWeeks);
   }, [firstDay, endDay]);
 
+  // カレンダーをクリックしたら
   const handleClick = (month: number, day: number) => {
     setModalOpen(true);
     dispatch(
       toggleSelectedDay({
         month,
-        day,
       })
     );
     setDay(day);
   };
 
-  const handlePrevMonth = () => {
+  const handlePrevMonth = useCallback(() => {
     if (month === 1) {
       setMonth(12);
       setYear(year - 1);
     } else {
       setMonth(month - 1);
     }
-  };
+  }, [month, year])
 
-  const handleNextMonth = () => {
+  const handleNextMonth = useCallback(() => {
     if (month === 12) {
       setMonth(1);
       setYear(year + 1);
     } else {
       setMonth(month + 1);
     }
-  };
+  }, [month, year]) 
 
+  // データの取得
   useEffect(() => {
     dispatch(fetchSupabaseData());
   }, []);
@@ -165,6 +166,12 @@ export const Calendar = () => {
           次月へ
         </div>
       </div>
+      <SelectMonth
+      year={year}
+      setYear={setYear}
+      month={month}
+      setMonth={setMonth}
+      />
       <Price
         month={month}
         day={day}

@@ -39,7 +39,7 @@ export const calendarSlice = createSlice({
     },
 
     toggleSelectedDay(state, action) {
-      const { month, day } = action.payload
+      const { month } = action.payload
       if (!state.dayInfo[month]) {
         state.dayInfo[month] = {}
       }

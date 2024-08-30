@@ -31,7 +31,7 @@ export const DayModal: React.FC<CalendarProps> = ({
 
   const handleInput = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setModalInputContent(e.target.value);
-  }, [setModalInputContent])
+  }, [modalInputContent])
 
 
   const handleDecisionBtnClick = () => {

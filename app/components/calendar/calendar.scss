@@ -43,6 +43,7 @@ $cell-height: 70px;
       background-color: #ccc;
       border-radius: 5px;
       padding: 5px;
+      transition: .3s;
       box-shadow: 2px 2px 0px 0px rgba(0, 0, 0, 0.4);
       &.selected {
         background-color: #f8d56d;
@@ -59,6 +60,10 @@ $cell-height: 70px;
       @for $i from 1 through 31 {
         .day#{$i} {
           cursor: pointer;
+
+          &:hover {
+            box-shadow: inset -4px -4px 0px rgba(0, 0, 0, 0.4);
+          }
         }
       }
   }
