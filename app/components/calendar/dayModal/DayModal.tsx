@@ -4,10 +4,17 @@ import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { CalendarProps } from "../../../types/types";
 
 import { useAppDispatch, useAppSelector } from "@/app/redux/common/hooks";
-import { getDayContent, toggleSelectedDay, deleteDay } from "@/app/redux/Slice";
+import { addDay, deleteDay } from "@/app/redux/Slice";
 
 import "./dayModal.scss";
-import { addSupabaseData, updateSupabaseData, deleteSupabaseData } from "@/utils/supabaseFunk";
+import {
+  addSupabaseData,
+  deleteSupabaseData,
+  fetchSupabaseData,
+  updateSupabaseData,
+  // updateSupabaseData,
+  // deleteSupabaseData
+} from "@/utils/supabaseFunk";
 
 export const DayModal: React.FC<CalendarProps> = ({
   year,
@@ -18,71 +25,96 @@ export const DayModal: React.FC<CalendarProps> = ({
   modalInputContent,
   setModalInputContent,
 }) => {
-  
-  const { dayInfo } = useAppSelector((state) => state.calendar);
+  const dayInfo = useAppSelector((state) => state.calendar);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (modalOpen) {
-      setModalInputContent(dayInfo[month][day] || "");
+      setModalInputContent(
+        dayInfo.find(
+          (d) => d.year === year && d.month === month && d.day === day
+        )?.contents || ""
+      );
     }
   }, [modalOpen]);
 
+  const handleInput = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      setModalInputContent(e.target.value);
+    },
+    [modalInputContent]
+  );
 
-  const handleInput = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    setModalInputContent(e.target.value);
-  }, [modalInputContent])
+  // 決定ボタン押したらデータを加える、また更新
+  const handleDecisionBtnClick = async () => {
+    const selectedInfo = dayInfo.find(
+      (info) => info.year === year && info.month === month && info.day === day
+    );
 
+    let resultAction
 
-  const handleDecisionBtnClick = () => {
+    if (!selectedInfo) {
+      // 加える
+      resultAction = await dispatch(
+        addSupabaseData({
+          addDayData: {
+            year,
+            month,
+            day,
+            contents: modalInputContent,
+          },
+        })
+      );
+    } else {
+      // 更新
+      resultAction = await dispatch(
+        updateSupabaseData({
+          updateDayData: {
+            year,
+            month,
+            day,
+            contents: modalInputContent,
+          },
+        })
+      );
+    }
+     // 成功した場合のみReduxの状態を更新
+  if (resultAction.meta.requestStatus === 'fulfilled') {
     dispatch(
-      getDayContent({
+      addDay({
+        year,
         month,
         day,
-        content: modalInputContent,
+        contents: modalInputContent,
       })
     );
-    setModalOpen(false);
-  };
-
-  const handleAddDayData = () => {
-    if(!dayInfo[month][day]) {
-      dispatch(addSupabaseData({
-        addDayData: {
-          [month]: {
-            [day]: modalInputContent,
-          },
-        },
-      }))
-    } else {
-      dispatch(updateSupabaseData({
-        updateDayData: {
-          [month]: {
-            [day]: modalInputContent
-          }
-        }
-      }))
-    }
-  };
-  
-  const handleDeleteBtnClick = () => {
-    dispatch(
-      deleteDay({
-        month,
-        day,
-      })
-    )
-    dispatch(deleteSupabaseData({
-      deleteDayData: {
-        [month]: {
-          [day]: modalInputContent,
-        },
-      }
-    })
-    )
-    setModalOpen(false);
   }
+    setModalOpen(false);
+  };
 
+  const handleDeleteBtnClick = async () => {
+    const resultAction = await dispatch(
+      deleteSupabaseData({
+        deleteDayData: {
+          year,
+          month,
+          day,
+        },
+      })
+    );
+    if (deleteSupabaseData.fulfilled.match(resultAction)) {
+      dispatch(
+        deleteDay({
+          year,
+          month,
+          day,
+        })
+      );
+    } else {
+      console.error(resultAction.error);
+    }
+    setModalOpen(false);
+  };
   // キャンセルボタンクリック
   const handleCancelBtnClick = () => {
     setModalOpen(false);
@@ -118,9 +150,8 @@ export const DayModal: React.FC<CalendarProps> = ({
             className={`decisionBtn ${
               modalInputContent.trim() !== "" ? "isActive" : ""
             }`}
-            onClick={async() => {
+            onClick={() => {
               handleDecisionBtnClick();
-              await handleAddDayData();
             }}
           >
             保存

@@ -8,7 +8,7 @@ import { dayChangeProps } from "../../../types/types";
 
 export const SelectMonth = ({year, setYear, month, setMonth}: dayChangeProps) => {
 
-const { dayInfo } = useAppSelector((state) => state.calendar);
+const  dayInfo  = useAppSelector((state) => state.calendar);
 
 // 現在の日付
 const date = new Date()

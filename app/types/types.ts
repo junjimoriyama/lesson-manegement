@@ -12,9 +12,10 @@ export interface CalendarProps {
 }
 // 金額に関する
 export interface PriceProps {
+  year: number
   month: number
   day : number
-  eachPrice: {[key: number]: number}
+  monthPrice : number
   totalPrice: number
 }
 // 日付変更に関する

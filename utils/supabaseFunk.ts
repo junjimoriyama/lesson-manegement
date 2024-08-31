@@ -5,7 +5,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 export const fetchSupabaseData = createAsyncThunk(
   'supabase/fetch',
   async () => {
-    const { data, error } = await supabase.from('lesson').select('month, day, contents')
+    const { data, error } = await supabase.from('lesson').select('year, month, day, contents')
     if (error) {
       throw new Error(error.message)
     }
@@ -18,22 +18,15 @@ export const addSupabaseData = createAsyncThunk(
   'supabase/add',
   async ({ addDayData }: {
     addDayData: {
-      [month: number]: { [day: number]: string },
+      year: number,
+      month: number,
+      day: number,
+      contents: string,
     }
   }) => {
-    const month = Number(Object.keys(addDayData)[0])
-    const day = Number(Object.keys(addDayData[month])
-    [0])
-    const contents = addDayData[month][day]
 
-    const insertData = {
-      month: month,
-      day: day,
-      contents: contents
-    }
-
-    const { data, error } = await supabase.from('lesson').insert(insertData)
-
+    const { data, error } = await supabase.from('lesson').insert(addDayData)
+    
     if (error) {
       throw new Error(error.message)
     }
@@ -42,28 +35,27 @@ export const addSupabaseData = createAsyncThunk(
   }
 )
 
+
 export const updateSupabaseData = createAsyncThunk(
   'supabase/update',
   async ({ updateDayData }: {
     updateDayData: {
-      [month: number]: { [day: number]: string },
+      year: number,
+      month: number,
+      day: number,
+      contents: string,
     }
   }) => {
-    const month = Number(Object.keys(updateDayData)[0])
-    const day = Number(Object.keys(updateDayData[month])[0])
-    const contents = updateDayData[month][day]
-
-    const updateData = {
-      month: month,
-      day: day,
-      contents: contents
-    }
 
     const { data, error } = await supabase
       .from("lesson")
-      .update(updateData)
-      .match({ month, day })
-      
+      .update(updateDayData)
+      .match({ 
+        year: updateDayData.year, 
+        month: updateDayData.month, 
+        day: updateDayData.day 
+      })
+
     if (error) {
       throw new Error(error.message)
     }
@@ -76,16 +68,20 @@ export const deleteSupabaseData = createAsyncThunk(
   'supabase/delete',
   async ({deleteDayData}: {
     deleteDayData: {
-      [month: number]: { [day: number]: string },
+      year: number,
+      month: number,
+      day: number,
     }
   }) => {
-    const month = Number(Object.keys(deleteDayData)[0])
-    const day = Number(Object.keys(deleteDayData[month])[0])
 
     const {data, error} = await supabase
       .from('lesson')
       .delete()
-      .match({month, day})
+      .match({
+        year: deleteDayData.year,
+        month: deleteDayData.month,
+        day: deleteDayData.day
+      })
 
       if (error) {
         throw new Error(error.message)
