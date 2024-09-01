@@ -14,7 +14,7 @@ export const UserAvatar = async() => {
   return (
     <div>
       <div className="avatarWrap">
-      <Image className='userAvatar' width={30} height={30} src={session.user.image!} alt='UserAvatar' />
+      <Image className='userAvatar' width={40} height={40} src={session.user.image!} alt='UserAvatar' />
       </div>
     </div>
   );
