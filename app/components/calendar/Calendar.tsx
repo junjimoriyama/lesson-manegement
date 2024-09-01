@@ -4,9 +4,10 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import "./calendar.scss";
 import { DayModal } from "./dayModal/DayModal";
 import { useAppDispatch, useAppSelector } from "@/app/redux/common/hooks";
-import { Price } from "./price/Price";
+import { Price } from "../../header/price/Price";
 import { fetchSupabaseData } from "@/utils/supabaseFunk";
 import { SelectMonth } from "./selectMonth/SelectMonth";
+import { NextArrow, PrevArrow } from "@/public/svg/svg";
 
 export const Calendar = () => {
   const date = new Date();
@@ -21,33 +22,31 @@ export const Calendar = () => {
 
   const [weeks, setWeeks] = useState<number[][]>([]);
 
+  // redux
   const dayInfo = useAppSelector((state) => state.calendar);
-
   const dispatch = useAppDispatch();
 
   // 各月の金額
-  const [monthPrice, setMonthPrice] = useState(0)
+  const [monthPrice, setMonthPrice] = useState(0);
   // 各年の金額
-  const [totalPrice, setTotalPrice] = useState(0)
+  const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
     // 年と月が存在するデータのみをフィルタリング
-    const currentMonthInfo = dayInfo.filter(info => info.year && info.month);
-  
+    const currentMonthInfo = dayInfo.filter((info) => info.year && info.month);
+
     // 現在の年と月に該当するデータをさらにフィルタリング
-    const currentMonthPrice = currentMonthInfo.filter(info => info.year === year && info.month === month);
-  
+    const currentMonthPrice = currentMonthInfo.filter(
+      (info) => info.year === year && info.month === month
+    );
+
     // 現在の年と月に該当するデータの数に基づいて、月ごとの売上を計算し、`monthPrice`に設定
-    setMonthPrice(
-      currentMonthPrice.length * 2000
-    );
-  
+    setMonthPrice(currentMonthPrice.length * 2000);
+
     // 全体のデータに基づいて、合計売上を計算し、`totalPrice`に設定
-    setTotalPrice(
-      currentMonthInfo.length * 2000
-    );
-  }, [dayInfo, month]); 
-  
+    setTotalPrice(currentMonthInfo.length * 2000);
+  }, [dayInfo, month]);
+
   // モーダルの開閉
   const [modalOpen, setModalOpen] = useState(false);
   const [modalInputContent, setModalInputContent] = useState("");
@@ -113,12 +112,20 @@ export const Calendar = () => {
     dispatch(fetchSupabaseData());
   }, [dispatch]);
 
-
   return (
     <>
       <div className="calendar">
-        <div className="year">{year}年</div>
-        <div className="month">{month}月</div>
+        <div className="date">
+          <div className="year">{year}年</div>
+          <div className="month">{month}月</div>
+          <Price
+            year={year}
+            month={month}
+            day={day}
+            monthPrice={monthPrice}
+            totalPrice={totalPrice}
+          />
+        </div>
         <div className="weekList">
           {dayOfWeek.map((day, index) => (
             <div className="dayList" key={index}>
@@ -159,27 +166,21 @@ export const Calendar = () => {
           );
         })}
       </div>
+      {/* onClick={handlePrevMonth} */}
       <div className="monthChangeBtn">
-        <div className="prevBtn" onClick={handlePrevMonth}>
-          前月へ
-        </div>
-        <div className="nextBtn" onClick={handleNextMonth}>
-          次月へ
-        </div>
-      <SelectMonth
-        year={year}
-        setYear={setYear}
-        month={month}
-        setMonth={setMonth}
-      />
+        <PrevArrow
+        handlePrevMonth={handlePrevMonth}
+        />
+        <NextArrow
+        handleNextMonth={handleNextMonth}
+        />
+        <SelectMonth
+          year={year}
+          setYear={setYear}
+          month={month}
+          setMonth={setMonth}
+        />
       </div>
-      <Price
-        year={year}
-        month={month}
-        day={day}
-        monthPrice={monthPrice}
-        totalPrice={totalPrice}
-      />
       <DayModal
         date={date}
         year={year}

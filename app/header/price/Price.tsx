@@ -1,8 +1,7 @@
 'use client'
 
 import React, { useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "@/app/redux/common/hooks";
-import { PriceProps } from "../../../types/types";
+import { PriceProps } from "../../types/types";
 
 import "./price.scss";
 

@@ -3,7 +3,17 @@ $border-color: #254336;
 $cell-height: 70px;
 
 .calendar {
-  padding: 50px 50px 20px 50px;
+  padding:70px 50px 20px 50px;
+
+  .date {
+    display: flex;
+    align-items: end;
+    gap: 10px;
+
+    .month {
+      font-size: 24px;
+    }
+  }
   .weekList, .week {
     width: 100%;
     // border: 1px solid $border-color;
@@ -15,7 +25,7 @@ $cell-height: 70px;
       margin: 2px;
       border-radius: 5px;
       padding: 5px;
-      background-color: #c1bfbf;
+      background-color: #ebebeb;
       
       &:first-of-type{
         color: #B43F3F;
@@ -40,7 +50,7 @@ $cell-height: 70px;
       box-shadow: 2px 2px 0px 0px rgba(0, 0, 0, 0.4);
     }
     .day {
-      background-color: #ccc;
+      background-color: whitesmoke;
       border-radius: 5px;
       padding: 5px;
       transition: .3s;
@@ -75,12 +85,14 @@ $cell-height: 70px;
   width: 100%;
   gap: 10px;
 
-  .prevBtn, .nextBtn {
-    background-color: #333;
-    padding: 5px;
+  
+  .arrow {
+    // border: 1.5px solid rgba(0, 0, 0, 0.4);
     border-radius: 5px;
-    color: #fff;
-    font-size: 14px;
+    padding: 3px;
     cursor: pointer;
+    &:hover {
+      opacity: 0.7;
+    }
   }
 }

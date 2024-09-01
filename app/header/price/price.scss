@@ -1,14 +1,13 @@
 .price {
   display: flex;
-  flex-direction: column;
   align-items: flex-end;
   padding-right: 100px;
-  // position: absolute;
-  // right: 20px;
+  position: absolute;
+  right: 0px;
   .eachPrice {
-
+    width: 100px;
   }
   .totalPrice {
-
+    width: 100px;
   }
 }

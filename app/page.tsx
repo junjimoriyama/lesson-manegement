@@ -3,14 +3,12 @@
 
 import styles from "./page.module.css";
 import { Calendar } from "./components/calendar/Calendar";
-import { Price } from "./components/calendar/price/Price";
-import { Memo } from "./components/Memo";
-import { SignOutButton } from "./authPage/components/signOutButton/SignOutButton";
-import { UserAvatar } from "./authPage/components/UserAvatar";
+import { Price } from "./header/price/Price";
 
 import './home.scss'
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
+import { Header } from "./header/Header";
 
 export default async function Home() {
   const session = await auth()
@@ -19,14 +17,11 @@ export default async function Home() {
   }
   
   return (
+    <div className="home">
     <div className={styles.homeBackground}>
-    <div className="head">
-    <UserAvatar/>
-    <SignOutButton/>
-    </div>
-    {/* <Memo/> */}
+    <Header />
     <Calendar/>
-    {/* <Price/> */}
+    </div>
     </div>
   );
 }

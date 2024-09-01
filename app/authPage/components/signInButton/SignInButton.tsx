@@ -3,6 +3,7 @@
 import { auth, signIn } from "@/auth";
 import "./signInButton.scss";
 import { handleSignIn } from "./actionSignIn";
+import { AuthIcon } from "@/public/svg/svg";
 
 export const SignInButton = () => {
 
@@ -17,7 +18,8 @@ export const SignInButton = () => {
         type="submit"
         // onClick={() => handleSignInClick()}
         >
-          Go in!!
+          <AuthIcon/>
+          Log in
         </button>
       </form>
     </>
