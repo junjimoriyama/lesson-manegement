@@ -11,7 +11,8 @@ const page = async () => {
   const session = await auth();
 
   if(session) {
-    redirect('/')
+    console.log('User is authenticated, redirecting...');
+    redirect('https://lesson-manegement.vercel.app')
   } 
   return (
     <div className="auth">
