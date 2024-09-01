@@ -5,8 +5,10 @@ import { handleSignOut } from "./actionSignOut";
 
 export const SignOutButton = () => {
   return (
-    <form className="signOutForm" action={handleSignOut}>
-      <button className="signOutButton" type="submit">
+    <form className="signOutForm" action={ handleSignOut}>
+      <button
+      className="signOutButton" 
+      type="submit">
         Go out
       </button>
     </form>
