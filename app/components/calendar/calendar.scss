@@ -63,6 +63,9 @@ $cell-height: 100px;
           background-color: #fff;
         }
       }
+      &.isPaid {
+       border: 3px solid pink;
+      }
       input {
         width: 100%;
         pointer-events: none;

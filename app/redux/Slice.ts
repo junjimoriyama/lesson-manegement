@@ -3,14 +3,15 @@ import { Calendar } from './../components/calendar/Calendar';
 import { fetchSupabaseData } from '@/utils/supabaseFunk';
 import { createSlice } from '@reduxjs/toolkit';
 
-interface DayContent {
+interface DayInfo {
   year: number,
   month: number,
   day: number,
   contents: string
+  isPaid: boolean
 }
 
-const initialState: DayContent[] = []
+const initialState: DayInfo[] = []
 
 export const calendarSlice = createSlice({
   name: 'day',
@@ -24,6 +25,7 @@ export const calendarSlice = createSlice({
         month: data.month,
         day: data.day,
         contents: data.contents,
+        isPaid: data.isPaid
       }))
       return dayMapData
     })
@@ -31,13 +33,12 @@ export const calendarSlice = createSlice({
 
   reducers: {
     addDay(state, action) {
-      const { year, month, day, contents } = action.payload;
+      const { year, month, day, contents, isPaid } = action.payload;
 
       const existState = state.find(each => each.year === year &&
         each.month === month  && each.day === day
       )
       if(existState) {
-        console.log(existState)
         existState.contents = contents
       } else {
         state.push(action.payload)

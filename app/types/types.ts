@@ -1,3 +1,9 @@
+// 支払いに関する
+export interface PaymentProps {
+  year: number
+  month: number
+  day : number
+}
 
 // カレンダーに関する
 export interface CalendarProps {
@@ -9,6 +15,10 @@ export interface CalendarProps {
   setModalOpen: (open: boolean) => void
   modalInputContent: string
   setModalInputContent: (content: string) => void
+  isPaid: boolean
+  setIsPaid: (isPaid: boolean) => void
+  // paymentDay: PaymentProps[];  // PaymentProps[] を使う
+  // setPaymentDay: (paymentDay: PaymentProps[]) => void;
 }
 // 金額に関する
 export interface PriceProps {
@@ -18,6 +28,7 @@ export interface PriceProps {
   monthPrice : number
   totalPrice: number
 }
+
 // 日付変更に関する
 export interface dayChangeProps {
   year: number, 

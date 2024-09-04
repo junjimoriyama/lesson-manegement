@@ -46,6 +46,7 @@
     .modalInput {
       position: relative;
       width: 250px;
+      margin-bottom: 10px;
       &:focus {
         background-color: #e0e0e0;
         outline: none;
@@ -59,6 +60,20 @@
       // height: 24px;
       background-color: #fff;
       cursor: pointer;
+    }
+
+    // 支払い
+    .checkPayment {
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      color: #fff;
+      input {
+        margin-right: 5px;
+        width: 20px;
+        height: 20px;
+        accent-color: #333;
+      }
     }
   }
   .modalBtns {

@@ -8,6 +8,7 @@ import { Price } from "../../header/price/Price";
 import { fetchSupabaseData } from "@/utils/supabaseFunk";
 import { SelectMonth } from "./selectMonth/SelectMonth";
 import { NextArrow, PrevArrow } from "@/public/svg/svg";
+import { PaymentProps } from "@/app/types/types";
 
 export const Calendar = () => {
   const date = new Date();
@@ -51,6 +52,9 @@ export const Calendar = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalInputContent, setModalInputContent] = useState("");
 
+  // 支払いチェックボックスの状態
+  const [ isPaid, setIsPaid ] = useState(false)
+
   useEffect(() => {
     // monthが変更されたときにfirstDayとendDayを更新
     setFirstDay(new Date(year, month - 1, 1).getDay());
@@ -83,8 +87,11 @@ export const Calendar = () => {
     year: number,
     month: number,
     day: number,
-    contents: string
+    contents: string,
+    paid: boolean
   ) => {
+    // チェックを外す
+    setIsPaid(false)
     setModalOpen(true);
     setDay(day);
   };
@@ -111,6 +118,11 @@ export const Calendar = () => {
   useEffect(() => {
     dispatch(fetchSupabaseData());
   }, [dispatch]);
+
+
+  useEffect(() => {
+    console.log(dayInfo)
+  }, [])
 
   return (
     <>
@@ -144,6 +156,12 @@ export const Calendar = () => {
                     info.day === day
                   );
                 });
+                // 空の配列も許容
+                // const currentPaymentDay = (dayInfo || []).some((each) => {
+                //     each.year === year &&
+                //     each.month === month &&
+                //     each.day === day
+                // });
 
                 return (
                   <div
@@ -152,7 +170,7 @@ export const Calendar = () => {
                       `}
                     key={j}
                     onClick={() =>
-                      handleClick(year, month, day, modalInputContent)
+                      handleClick(year, month, day, modalInputContent, isPaid)
                     }
                   >
                     {day !== 0 ? day : ""}
@@ -190,6 +208,8 @@ export const Calendar = () => {
         setModalOpen={setModalOpen}
         modalInputContent={modalInputContent}
         setModalInputContent={setModalInputContent}
+        isPaid={isPaid}
+        setIsPaid={setIsPaid}
       />
     </>
   );

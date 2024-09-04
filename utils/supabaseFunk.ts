@@ -5,7 +5,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 export const fetchSupabaseData = createAsyncThunk(
   'supabase/fetch',
   async () => {
-    const { data, error } = await supabase.from('lesson').select('year, month, day, contents')
+    const { data, error } = await supabase.from('lesson').select('year, month, day, contents, isPaid')
     if (error) {
       throw new Error(error.message)
     }
@@ -22,6 +22,7 @@ export const addSupabaseData = createAsyncThunk(
       month: number,
       day: number,
       contents: string,
+      isPaid: boolean
     }
   }) => {
 
@@ -44,6 +45,7 @@ export const updateSupabaseData = createAsyncThunk(
       month: number,
       day: number,
       contents: string,
+      isPaid: boolean
     }
   }) => {
 

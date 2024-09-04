@@ -1,7 +1,7 @@
 "use client";
 
 import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
-import { CalendarProps } from "../../../types/types";
+import { CalendarProps, PaymentProps } from "../../../types/types";
 
 import { useAppDispatch, useAppSelector } from "@/app/redux/common/hooks";
 import { addDay, deleteDay } from "@/app/redux/Slice";
@@ -24,17 +24,24 @@ export const DayModal: React.FC<CalendarProps> = ({
   setModalOpen,
   modalInputContent,
   setModalInputContent,
+  isPaid,
+  setIsPaid,
 }) => {
   const dayInfo = useAppSelector((state) => state.calendar);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (modalOpen) {
+      // 学習内容の表示
       setModalInputContent(
         dayInfo.find(
-          (d) => d.year === year && d.month === month && d.day === day
+          d => d.year === year && d.month === month && d.day === day
         )?.contents || ""
       );
+      // 支払い情報の表示
+      setIsPaid(
+        dayInfo.find(d => d.year === year && d.month === month && d.day === day)?.isPaid ?? false
+      )
     }
   }, [modalOpen]);
 
@@ -62,6 +69,7 @@ export const DayModal: React.FC<CalendarProps> = ({
             month,
             day,
             contents: modalInputContent,
+            isPaid: isPaid
           },
         })
       );
@@ -74,6 +82,7 @@ export const DayModal: React.FC<CalendarProps> = ({
             month,
             day,
             contents: modalInputContent,
+            isPaid: isPaid
           },
         })
       );
@@ -86,6 +95,7 @@ export const DayModal: React.FC<CalendarProps> = ({
         month,
         day,
         contents: modalInputContent,
+        isPaid: isPaid
       })
     );
   }
@@ -120,6 +130,37 @@ export const DayModal: React.FC<CalendarProps> = ({
     setModalOpen(false);
   };
 
+  const handlePaymentCheck = (e: ChangeEvent<HTMLInputElement>) => {
+    if(e.target.checked) {
+      setIsPaid(true)
+    } else {
+      setIsPaid(false)
+    }
+  }
+
+  useEffect(() => {
+    console.log(isPaid)
+  }, [])
+
+  // useEffect(() => {
+  //   if (isPaid) {
+  //     setPaymentDay((prev) => {
+  //       const isIncludesPaymentDay = paymentDay.some(each => each.year === year && each.month === month && each.day === day)
+  //       if(isIncludesPaymentDay) {
+  //         return prev
+  //       }
+  //       return [...prev, { year, month, day }];
+  //     });
+  //   } else {
+  //     setPaymentDay((prev) => {
+  //       const filterDay = paymentDay.filter(each => each.year === year && each.month === month && each.day === day)
+  //       console.log(filterDay)
+
+  //     })
+  //   }
+  // }, [isPaid]);
+  
+
   return (
     <>
       <div className={`mask ${modalOpen ? "isOpen" : ""}`}></div>
@@ -144,6 +185,13 @@ export const DayModal: React.FC<CalendarProps> = ({
               ×
             </button>
           )}
+          <div className="checkPayment">
+            <input 
+            type="checkbox" 
+            checked={isPaid}
+            onChange={handlePaymentCheck}
+            />支払い済み
+          </div>
         </div>
         <div className="modalBtns">
           <div
