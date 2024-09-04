@@ -19,7 +19,8 @@ export const SignInButton = () => {
         // onClick={() => handleSignInClick()}
         >
           <AuthIcon/>
-          Log in
+          <p className="logInText">Log in</p>
+          
         </button>
       </form>
     </>

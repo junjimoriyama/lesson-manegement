@@ -20,7 +20,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 200px;
+  width: 300px;
   height: 200px;
   border: 1px solid #000;
   border-radius: 20px;
@@ -45,6 +45,7 @@
   .modalContents {
     .modalInput {
       position: relative;
+      width: 250px;
       &:focus {
         background-color: #e0e0e0;
         outline: none;
@@ -53,7 +54,10 @@
     }
     .deleteContentBtn {
       position: absolute;
-      right: 30px;
+      right: 24px;
+      width: 30px;
+      // height: 24px;
+      background-color: #fff;
       cursor: pointer;
     }
   }

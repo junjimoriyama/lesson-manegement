@@ -3,6 +3,7 @@ import React from "react";
 export const AuthIcon = () => {
   return (
     <svg
+      className="authSvg"
       width="90"
       height="74"
       viewBox="0 0 90 70"
@@ -10,6 +11,7 @@ export const AuthIcon = () => {
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
+      
         d="M70.9513 74H0V60.6966C0 52.7146 6.65169 43.7903 17.7378 43.7903H53.2135C67.6255 43.7903 70.9513 53.2135 70.9513 60.6966V74Z"
         fill="black"
       />
