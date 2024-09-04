@@ -1,9 +1,13 @@
 
 $border-color: #254336;
-$cell-height: 70px;
+$cell-height: 100px;
 
 .calendar {
   padding:70px 50px 20px 50px;
+  width: 100%;
+  // max-width: 1200px;
+  // margin: 0 auto;
+  
 
   .date {
     display: flex;
@@ -16,12 +20,10 @@ $cell-height: 70px;
   }
   .weekList, .week {
     width: 100%;
-    // border: 1px solid $border-color;
     display: flex;
     .dayList, .day {
       width: calc(100% / 7);
       height: $cell-height;
-      // border: 1px solid $border-color;
       margin: 2px;
       border-radius: 5px;
       padding: 5px;

@@ -12,7 +12,7 @@ const page = async () => {
 
   if(session) {
     console.log('User is authenticated, redirecting...');
-    redirect('https://lesson-manegement.vercel.app')
+    redirect('/')
   } 
   return (
     <div className="auth">
