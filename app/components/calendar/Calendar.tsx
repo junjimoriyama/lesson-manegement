@@ -4,11 +4,12 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import "./calendar.scss";
 import { DayModal } from "./dayModal/DayModal";
 import { useAppDispatch, useAppSelector } from "@/app/redux/common/hooks";
-import { Price } from "../../header/price/Price";
+import { Price } from "../../components/price/Price";
 import { fetchSupabaseData } from "@/utils/supabaseFunk";
 import { SelectMonth } from "./selectMonth/SelectMonth";
-import { NextArrow, PrevArrow } from "@/public/svg/svg";
-import { PaymentProps } from "@/app/types/types";
+import { HistoryLogo, NextArrow, PrevArrow, PriceLogo } from "@/public/svg/svg";
+import { LessonDay } from "../history/history";
+import { DayInfo } from "@/app/types/types";
 
 export const Calendar = () => {
   const date = new Date();
@@ -18,7 +19,9 @@ export const Calendar = () => {
   const [firstDay, setFirstDay] = useState(new Date(year, month, 1).getDate());
   const [endDay, setEndDay] = useState(new Date(year, month + 1, 0).getDate());
   const dayOfWeek = ["日", "月", "火", "水", "木", "金", "土"];
+  // 列
   const columns = 7;
+  // 行
   let rows = Math.ceil(firstDay + endDay) / columns;
 
   const [weeks, setWeeks] = useState<number[][]>([]);
@@ -32,28 +35,49 @@ export const Calendar = () => {
   // 各年の金額
   const [totalPrice, setTotalPrice] = useState(0);
 
-  useEffect(() => {
-    // 年と月が存在するデータのみをフィルタリング
-    const currentMonthInfo = dayInfo.filter((info) => info.year && info.month);
-
-    // 現在の年と月に該当するデータをさらにフィルタリング
-    const currentMonthPrice = currentMonthInfo.filter(
-      (info) => info.year === year && info.month === month
-    );
-
-    // 現在の年と月に該当するデータの数に基づいて、月ごとの売上を計算し、`monthPrice`に設定
-    setMonthPrice(currentMonthPrice.length * 2000);
-
-    // 全体のデータに基づいて、合計売上を計算し、`totalPrice`に設定
-    setTotalPrice(currentMonthInfo.length * 2000);
-  }, [dayInfo, month]);
-
   // モーダルの開閉
   const [modalOpen, setModalOpen] = useState(false);
   const [modalInputContent, setModalInputContent] = useState("");
 
   // 支払いチェックボックスの状態
-  const [ isPaid, setIsPaid ] = useState(false)
+  const [isPaid, setIsPaid] = useState(false);
+
+  const [sortDayInfo, setSortDayInfo] = useState<DayInfo[]>([]);
+  const [historyShow, setHistoryShow] = useState(false);
+
+
+  const handleHistoryClick = () => {
+    // マスク表示
+    setHistoryShow(true);
+    // 日付順
+    const sorted = [...dayInfo].sort((a, b) => {
+      if (a.year !== b.year) {
+        return a.year - b.year;
+      } else if (a.month !== b.month) {
+        return a.month - b.month;
+      } else {
+        return a.day - b.day;
+      }
+    });
+    setSortDayInfo(sorted);
+    console.log(sortDayInfo)
+  };
+
+  useEffect(() => {
+    const filteredCurrentMonthData = dayInfo.filter(
+      (info) => info.year === year && info.month === month
+    );
+
+    const paidDaysInCurrentMonth = filteredCurrentMonthData.filter(
+      (day) => day.isPaid === false
+    );
+
+    const allPaidDays = dayInfo.filter((day) => day.isPaid === false);
+
+    setMonthPrice(paidDaysInCurrentMonth.length * 2000);
+
+    setTotalPrice(allPaidDays.length * 2000);
+  }, [dayInfo, month]);
 
   useEffect(() => {
     // monthが変更されたときにfirstDayとendDayを更新
@@ -80,20 +104,17 @@ export const Calendar = () => {
       generatedWeeks.push(days);
     }
     setWeeks(generatedWeeks);
+    console.log(weeks)
   }, [firstDay, endDay]);
 
   // カレンダーをクリックしたら
-  const handleClick = (
-    year: number,
-    month: number,
-    day: number,
-    contents: string,
-    paid: boolean
-  ) => {
-    // チェックを外す
-    setIsPaid(false)
-    setModalOpen(true);
-    setDay(day);
+  const handleCalendarClick = (day: number) => {
+    if (day !== 0) {
+      // チェックを外す
+      setIsPaid(false);
+      setModalOpen(true);
+      setDay(day);
+    }
   };
 
   const handlePrevMonth = useCallback(() => {
@@ -119,25 +140,25 @@ export const Calendar = () => {
     dispatch(fetchSupabaseData());
   }, [dispatch]);
 
-
-  useEffect(() => {
-    console.log(dayInfo)
-  }, [])
-
   return (
     <>
       <div className="calendar">
+      <div className="calendarHeader">
         <div className="date">
           <div className="year">{year}年</div>
           <div className="month">{month}月</div>
-          <Price
-            year={year}
-            month={month}
-            day={day}
-            monthPrice={monthPrice}
-            totalPrice={totalPrice}
-          />
         </div>
+
+        <HistoryLogo handleHistoryClick={handleHistoryClick} />
+        <Price
+          year={year}
+          month={month}
+          day={day}
+          monthPrice={monthPrice}
+          totalPrice={totalPrice}
+        />
+
+      </div>
         <div className="weekList">
           {dayOfWeek.map((day, index) => (
             <div className="dayList" key={index}>
@@ -156,22 +177,15 @@ export const Calendar = () => {
                     info.day === day
                   );
                 });
-                // 空の配列も許容
-                // const currentPaymentDay = (dayInfo || []).some((each) => {
-                //     each.year === year &&
-                //     each.month === month &&
-                //     each.day === day
-                // });
 
                 return (
                   <div
                     className={`day day${day !== 0 ? day : ""}
                       ${currentDayInfo?.day === day ? "selected" : ""}
+                      ${currentDayInfo?.isPaid === true ? "isPaid" : ""}
                       `}
                     key={j}
-                    onClick={() =>
-                      handleClick(year, month, day, modalInputContent, isPaid)
-                    }
+                    onClick={() => handleCalendarClick(day)}
                   >
                     {day !== 0 ? day : ""}
                     <p className={`lessonContent lessonContent${day}`}>
@@ -186,12 +200,8 @@ export const Calendar = () => {
       </div>
       {/* onClick={handlePrevMonth} */}
       <div className="monthChangeBtn">
-        <PrevArrow
-        handlePrevMonth={handlePrevMonth}
-        />
-        <NextArrow
-        handleNextMonth={handleNextMonth}
-        />
+        <PrevArrow handlePrevMonth={handlePrevMonth} />
+        <NextArrow handleNextMonth={handleNextMonth} />
         <SelectMonth
           year={year}
           setYear={setYear}
@@ -210,6 +220,15 @@ export const Calendar = () => {
         setModalInputContent={setModalInputContent}
         isPaid={isPaid}
         setIsPaid={setIsPaid}
+      />
+      <LessonDay
+        year={year}
+        month={month}
+        day={day}
+        sortDayInfo={sortDayInfo}
+        historyShow={historyShow}
+        setHistoryShow={setHistoryShow}
+        // day={day}
       />
     </>
   );

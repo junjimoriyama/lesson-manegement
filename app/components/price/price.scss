@@ -4,6 +4,14 @@
   padding-right: 100px;
   position: absolute;
   right: 0px;
+  .priceLogo {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+  }
+  .eachPrice, .totalPrice {
+    font-weight: 700;
+  }
   .eachPrice {
     width: 100px;
   }

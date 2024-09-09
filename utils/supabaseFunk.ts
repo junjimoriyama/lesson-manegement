@@ -36,7 +36,7 @@ export const addSupabaseData = createAsyncThunk(
   }
 )
 
-
+// データの更新
 export const updateSupabaseData = createAsyncThunk(
   'supabase/update',
   async ({ updateDayData }: {

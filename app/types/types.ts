@@ -1,3 +1,13 @@
+
+// ステート、データベースの型
+export interface DayInfo {
+  year: number,
+  month: number,
+  day: number,
+  contents: string
+  isPaid: boolean
+}
+
 // 支払いに関する
 export interface PaymentProps {
   year: number

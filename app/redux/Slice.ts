@@ -2,14 +2,7 @@ import { supabase } from '@/utils/supabase';
 import { Calendar } from './../components/calendar/Calendar';
 import { fetchSupabaseData } from '@/utils/supabaseFunk';
 import { createSlice } from '@reduxjs/toolkit';
-
-interface DayInfo {
-  year: number,
-  month: number,
-  day: number,
-  contents: string
-  isPaid: boolean
-}
+import { DayInfo } from '../types/types';
 
 const initialState: DayInfo[] = []
 
@@ -39,7 +32,10 @@ export const calendarSlice = createSlice({
         each.month === month  && each.day === day
       )
       if(existState) {
+        // 学習内容の状態更新
         existState.contents = contents
+        // 支払い済みの状態更新
+        existState.isPaid = isPaid
       } else {
         state.push(action.payload)
       }

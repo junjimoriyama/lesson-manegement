@@ -1,3 +1,5 @@
+@import '../../variables';
+
 header {
   position: fixed;
   top: 0;
@@ -6,7 +8,18 @@ header {
   align-items: center;
   gap: 10px;
   width: 100%;
-  height: 60px;
+  height: $header-height;
   padding: 0 20px;
   background-color: #333;
+
+  .authAction {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: auto;
+  }
+
+  .avatarWrap {
+
+  }
 }

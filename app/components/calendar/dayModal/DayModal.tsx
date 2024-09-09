@@ -10,10 +10,7 @@ import "./dayModal.scss";
 import {
   addSupabaseData,
   deleteSupabaseData,
-  fetchSupabaseData,
   updateSupabaseData,
-  // updateSupabaseData,
-  // deleteSupabaseData
 } from "@/utils/supabaseFunk";
 
 export const DayModal: React.FC<CalendarProps> = ({
@@ -138,28 +135,6 @@ export const DayModal: React.FC<CalendarProps> = ({
     }
   }
 
-  useEffect(() => {
-    console.log(isPaid)
-  }, [])
-
-  // useEffect(() => {
-  //   if (isPaid) {
-  //     setPaymentDay((prev) => {
-  //       const isIncludesPaymentDay = paymentDay.some(each => each.year === year && each.month === month && each.day === day)
-  //       if(isIncludesPaymentDay) {
-  //         return prev
-  //       }
-  //       return [...prev, { year, month, day }];
-  //     });
-  //   } else {
-  //     setPaymentDay((prev) => {
-  //       const filterDay = paymentDay.filter(each => each.year === year && each.month === month && each.day === day)
-  //       console.log(filterDay)
-
-  //     })
-  //   }
-  // }, [isPaid]);
-  
 
   return (
     <>
