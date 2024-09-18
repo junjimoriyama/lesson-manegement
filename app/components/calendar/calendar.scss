@@ -1,40 +1,75 @@
-@import '../../variables';
+@use "@/app/sass/responsive" as *;
+@import '../../sass/variables';
 
 $border-color: #254336;
 $cell-height: 100px;
 
 .calendar {
-  padding: calc($header-height + 10px) 50px 20px 50px;
+  padding: calc($header-height + 10px) 30px 20px 30px;
   width: 100%;
-  
+
+  @include res(md) {
+    padding: calc($header-height + 25px) 10px 20px 10px;
+  }
+
   .calendarHeader {
     display: flex;
     align-items: center;
     gap: 10px;
-    .date {
+    margin-top: 10px;
+    margin-bottom: 30px;
+
+    @include res(md) {
+      margin-top: 0;
+    }
+
+    .calendarHeaderWrap {
       display: flex;
-      align-items: end;
-      gap: 10px;
-  
-      .year, .month {
-        font-weight: 700;
+      align-items: center;
+
+      .date {
+        display: flex;
+        align-items: end;
+        gap: 10px;
+        margin-right: 10px;
+
+        .year,
+        .month {
+          font-weight: 700;
+        }
+
+        .month {
+          font-size: 24px;
+        }
       }
-  
-      .month {
-        font-size: 24px;
+
+      .historyLogo {
+        transition: .3s;
+        cursor: pointer;
+
+        &:hover {
+          opacity: 0.7;
+        }
+
+        .historyLogoRect {
+          fill: #0051aa;
+          display: flex;
+        }
       }
-  
+
+      @include res(md) {
+        display: block;
+        flex-direction: column;
+      }
     }
-    .historyLogo {
-      transition: .3s;
-      cursor: pointer;
-      &:hover {
-        opacity: 0.7;
-      }
-    }
+
+    transition: 0.3s;
+    cursor: pointer;
+    line-height: 1;
+    height: 20px;
+    // style="display: flex; align-items: center; 
+    // 　<h3><span id="toc1">宇宙甲子園缶サット部門関東大会２０２４概要</span></h3>
   }
-
-
 
   .lessonDayList {
     cursor: pointer;
@@ -49,26 +84,29 @@ $cell-height: 100px;
     width: 100%;
     display: flex;
 
+    .dayList {
+      &:first-of-type {
+        border-radius: 10px 0 0 0;
+        color: #ec6464;
+      }
+
+      &:last-of-type {
+        border-radius: 0 10px 0 0;
+        color: #1d579b;
+      }
+    }
+
     .dayList,
     .day {
       width: calc(100% / 7);
       height: $cell-height;
       margin: 2px;
-      border-radius: 5px;
       padding: 5px;
-      background-color: #ebebeb;
-
-      &:first-of-type {
-        color: #B43F3F;
-      }
-
-      &:last-of-type {
-        color: #4b6786;
-      }
+      background-color: skyblue;
 
       .lessonContent {
         width: 100%;
-        height: 50%;
+        height: 60px;
         color: #333;
         font-size: 10px;
         padding: 3px;
@@ -76,6 +114,7 @@ $cell-height: 100px;
         white-space: normal;
         word-break: break-all;
         font-weight: 400;
+        overflow: auto;
       }
     }
 
@@ -84,17 +123,17 @@ $cell-height: 100px;
       display: grid;
       place-items: center;
       height: 50px;
-      box-shadow: 2px 2px 0px 0px rgba(0, 0, 0, 0.4);
+      // box-shadow: 2px 2px 0px 0px rgba(0, 0, 0, 0.4);
       font-weight: 700;
       font-size: 24px;
     }
 
     .day {
       background-color: whitesmoke;
-      border-radius: 5px;
+      // border-radius: 5px;
       padding: 5px;
       transition: .3s;
-      box-shadow: 2px 2px 0px 0px rgba(0, 0, 0, 0.4);
+      // box-shadow: 2px 2px 0px 0px rgba(0, 0, 0, 0.4);
       font-weight: 700;
       font-size: 20px;
 
@@ -107,7 +146,7 @@ $cell-height: 100px;
       }
 
       &.isPaid {
-        border: 3px solid rgb(202, 101, 0);
+        background-color: #ea8250;
       }
 
       input {
@@ -115,82 +154,161 @@ $cell-height: 100px;
         pointer-events: none;
       }
 
+      .dayHead {
+        display: flex;
+        justify-content: space-between;
+        position: relative;
+      }
+
       /* 左端（最初）の要素にピンク色を適用 */
     }
+
 
     @for $i from 1 through 31 {
       .day#{$i} {
         cursor: pointer;
 
         &:hover {
-          box-shadow: inset -4px -4px 0px rgba(0, 0, 0, 0.4);
+          background-color: rgb(217, 235, 241);
+        }
+
+        &.isPaid {
+          &:hover {
+            background-color: skyblue;
+          }
         }
       }
     }
   }
-}
 
-.monthChangeBtn {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  gap: 10px;
-
-  .arrow {
-    padding: 3px;
-    cursor: pointer;
-
-    &:hover {
-      opacity: 0.7;
-    }
-
-  }
-
-  .nextBtn,
-  .prevBtn {
-    position: relative;
+  // 縦書きカレンダー
+  .v_dayList {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 5px;
+    gap: 20px;
+    width: 100%;
+    height: 40px;
+    padding: 5px;
+    background-color: whitesmoke;
+    border-radius: 5px;
     transition: .3s;
-    transform: translateX(0px);
+    box-shadow: 2px 2px 0px 0px rgba(0, 0, 0, 0.4);
 
-  }
+    &:last-of-type {
+      margin-bottom: 0;
+    }
 
-  .prevBtn {
-    &:hover {
-      animation: moveLeftArrow 0.5s;
+    &.selected {
+      background-color: #f8d56d;
+
+      .v_content {
+        background-color: #fff;
+      }
+    }
+
+    .v_day {
+      width: 30px;
+
+    }
+
+    .v_dayWeek {
+      font-size: 16px;
+
+      &.isRed {
+        color: #B43F3F;
+      }
+
+      &.isBlue {
+        color: #4b6786;
+      }
+    }
+
+    .v_content {
+      display: flex;
+      width: 100%;
+      height: 30px;
+      justify-content: center;
+      align-items: center;
+      border-radius: 5px;
+      overflow-x: auto;
+      white-space: nowrap;
     }
   }
-
-  .nextBtn {
-    &:hover {
-      animation: moveRightArrow 0.5s;
+  .monthChange {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    gap: 10px;
+    margin-top: 20px;
+  
+    @include res(md) {
+      align-items: center;
+      flex-direction: column;
     }
-  }
-
-  @keyframes moveLeftArrow {
-    0% {
-      transform: translateX(0px);
+  
+    .prevNextMonth {
+      display: flex;
+      gap: 20px;
+  
+      .arrow {
+        padding: 3px;
+        cursor: pointer;
+  
+        &:hover {
+          opacity: 0.7;
+        }
+      }
+  
+      .nextBtn,
+      .prevBtn {
+        position: relative;
+        transition: .3s;
+        transform: translateX(0px);
+  
+      }
+  
+      .prevBtn {
+        &:hover {
+          animation: moveLeftArrow 0.5s;
+        }
+      }
+  
+      .nextBtn {
+        &:hover {
+          animation: moveRightArrow 0.5s;
+        }
+      }
+  
+      @keyframes moveLeftArrow {
+        0% {
+          transform: translateX(0px);
+        }
+  
+        50% {
+          transform: translateX(-10px);
+        }
+  
+        100% {
+          transform: translateX(0px);
+        }
+      }
+  
+      @keyframes moveRightArrow {
+        0% {
+          transform: translateX(0px);
+        }
+  
+        50% {
+          transform: translateX(10px);
+        }
+  
+        100% {
+          transform: translateX(0px);
+        }
+      }
     }
-
-    50% {
-      transform: translateX(-10px);
-    }
-
-    100% {
-      transform: translateX(0px);
-    }
-  }
-
-  @keyframes moveRightArrow {
-    0% {
-      transform: translateX(0px);
-    }
-
-    50% {
-      transform: translateX(10px);
-    }
-
-    100% {
-      transform: translateX(0px);
-    }
+  
   }
 }

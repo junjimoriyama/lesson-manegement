@@ -1,7 +1,7 @@
-
-
-import { auth } from '@/auth'
+// next
 import Image from 'next/image'
+// function
+import { auth } from '@/auth'
 
 import './userAvatar.scss'
 

@@ -1,7 +1,9 @@
 'use client'
 
-import { signIn } from "next-auth/react"
+// hooks
 import { useEffect } from "react"
+// function
+import { signIn } from "next-auth/react"
 
 export const CantSignIn = () => {
 

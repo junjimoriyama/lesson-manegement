@@ -1,5 +1,7 @@
 'use client';
+// hooks
 import { useRef } from 'react';
+// redux
 import { Provider } from 'react-redux';
 import { makeStore, AppStore } from '../app/redux/store';
 

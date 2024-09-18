@@ -1,23 +1,31 @@
-'use client'
-
-import React, { useEffect, useState } from "react";
-import { PriceProps } from "../../types/types";
-
-import "./price.scss";
+"use client";
+// component
 import { PriceLogo } from "@/public/svg/svg";
+// types
+import { PriceProps } from "../../types/types";
+// style
+import "./price.scss";
 
 export const Price: React.FC<PriceProps> = ({
   month,
   monthPrice,
-  totalPrice
+  totalPrice,
 }) => {
-
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat('ja-JP').format(price)
+  }
   return (
     <div className="price">
-      <PriceLogo/>
-    <div className="eachPrice">
-      {`${[month]}月`}: {monthPrice}</div>
-    <div className="totalPrice">合計:{totalPrice}</div>
-  </div>
-  )
-}
+      <div className="priceLogoWrap">
+      <PriceLogo />
+      </div>
+      <div className="priceWrap">
+        <div className="eachPrice">
+          <p >{`${[month]}月`}: </p>
+          <p>{formatPrice(monthPrice)}円</p>
+        </div>
+        <div className="totalPrice">合計: {formatPrice(totalPrice)}円</div>
+      </div>
+    </div>
+  );
+};

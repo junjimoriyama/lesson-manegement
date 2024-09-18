@@ -1,4 +1,6 @@
+// redux
 import { configureStore } from '@reduxjs/toolkit';
+// function
 import calendarReducer from './Slice'
 
 export const makeStore = () => {

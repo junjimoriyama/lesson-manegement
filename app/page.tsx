@@ -1,13 +1,12 @@
-// 'use client'
-// これがあるとアバターが表示できない
-
-import styles from "./page.module.css";
-import { Calendar } from "./components/calendar/Calendar";
-
-import './home.scss'
+// next
 import { redirect } from "next/navigation";
-import { auth } from "@/auth";
+// component
+import { Calendar } from "./components/calendar/Calendar";
 import { Header } from "./components/header/Header";
+// function
+import { auth } from "@/auth";
+// style
+import './home.scss'
 
 export default async function Home() {
   const session = await auth()

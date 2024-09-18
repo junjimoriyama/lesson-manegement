@@ -11,10 +11,11 @@
     color: #333;
     border-radius: 5px;
     transition: .3s;
+    box-shadow: -1px -1px 2px 2px #777777;
     cursor: pointer;
 
     &:hover {
-      opacity: 0.3;
+      background-color: rgb(217, 235, 241);
     }
   }
 }

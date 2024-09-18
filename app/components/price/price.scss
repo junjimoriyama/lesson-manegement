@@ -1,21 +1,62 @@
+@use "@/app/sass/responsive" as *;
+
 .price {
   display: flex;
-  align-items: flex-end;
-  padding-right: 100px;
+  align-items: center;
+  justify-content: space-between;
+  margin-right: 40px;
   position: absolute;
-  right: 0px;
-  .priceLogo {
-    width: 30px;
-    height: 30px;
-    margin-right: 10px;
+  top: 90px;
+  right: -10px;
+  width: 200px;
+  background-color: rgb(217, 235, 241);
+  padding: 0 5px 0 0;
+  border-radius: 5px 0 0 5px;
+
+  @include res(md) {
+    width: 185px;
+    margin-right: 20px;
+    top: 95px;
   }
-  .eachPrice, .totalPrice {
-    font-weight: 700;
+  .priceLogoWrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #0051aa;
+    height: 48px;
+    border-radius: 5px 0 0 5px;
+
+    .priceLogo {
+      width: 30px;
+      height: 30px;
+      margin: 0 10px;
+    }
   }
-  .eachPrice {
-    width: 100px;
-  }
-  .totalPrice {
-    width: 100px;
+
+
+  .priceWrap {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    // flex-direction: row;
+
+    // @include res(md) {
+    //   flex-direction: column;
+    // }
+
+    .eachPrice,
+    .totalPrice {
+      display: flex;
+      justify-content: space-between;
+      font-weight: 700;
+
+      .eachPriceMonth {
+        width: 30px;
+        margin-right: 20px;
+      }
+      .eachPriceDisplay {
+        width: 100px;
+      }
+    }
   }
 }

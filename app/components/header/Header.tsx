@@ -1,13 +1,11 @@
-
-import "./header.scss";
-// import { UserAvatar } from '../../authPage/components/UserAvatar'
-import { SignOutButton } from "../../authPage/components/signOutButton/SignOutButton";
-import { MainLogo } from "@/public/svg/svg";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
-import { auth } from "@/auth";
-import { UserAvatar } from "@/app/authPage/components/UserAvatar";
+// next
 import Link from "next/link";
+// component
+import { MainLogo } from "@/public/svg/svg";
+import { SignOutButton } from "../../authPage/components/signOutButton/SignOutButton";
+import { UserAvatar } from "@/app/authPage/components/UserAvatar";
+// style
+import "./header.scss";
 
 export const Header = async () => {
 

@@ -1,17 +1,19 @@
 "use client";
-
-import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
-import { CalendarProps, PaymentProps } from "../../../types/types";
-
-import { useAppDispatch, useAppSelector } from "@/app/redux/common/hooks";
-import { addDay, deleteDay } from "@/app/redux/Slice";
-
-import "./dayModal.scss";
+// supabase
 import {
   addSupabaseData,
   deleteSupabaseData,
   updateSupabaseData,
 } from "@/utils/supabaseFunk";
+// hooks
+import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
+// types
+import { CalendarProps } from "../../../types/types";
+// redux
+import { useAppDispatch, useAppSelector } from "@/app/redux/common/hooks";
+import { addDay, deleteDay } from "@/app/redux/Slice";
+// style
+import "./dayModal.scss";
 
 export const DayModal: React.FC<CalendarProps> = ({
   year,

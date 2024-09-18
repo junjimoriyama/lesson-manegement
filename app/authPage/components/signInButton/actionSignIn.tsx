@@ -1,6 +1,6 @@
 "use server";
-
-import { auth, signIn } from "@/auth";
+// function
+import { signIn } from "@/auth";
 
 export const handleSignIn = async () => {
 await signIn();

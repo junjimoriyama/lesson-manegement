@@ -1,13 +1,15 @@
 'use client'
-import "./signOutButton.scss";
 
+// function
 import { handleSignOut } from "./actionSignOut";
+// scss
+import "./signOutButton.scss";
 
 export const SignOutButton = () => {
   return (
     <form className="signOutForm" action={handleSignOut}>
       <button className="signOutButton" type="submit">
-        Go out
+        log out
       </button>
     </form>
   );

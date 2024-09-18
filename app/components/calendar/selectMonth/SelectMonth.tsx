@@ -1,10 +1,12 @@
 "use client";
 
-import { ChangeEvent, useState } from 'react';
-import './selectMonth.scss'
+// redux
 import { useAppSelector } from '@/app/redux/common/hooks';
-
+// type
 import { dayChangeProps } from "../../../types/types";
+import { ChangeEvent} from 'react';
+// style
+import './selectMonth.scss'
 
 export const SelectMonth = ({year, setYear, month, setMonth}: dayChangeProps) => {
 
@@ -12,9 +14,6 @@ const  dayInfo  = useAppSelector((state) => state.calendar);
 
 // 現在の日付
 const date = new Date()
-
-// const [ selectedYear, setSelectedYear ] = useState(date.getFullYear())
-// const [ selectedMonth, setSelectedMonth ] = useState(date.getMonth() + 1)
 
 // 年を取得
 const getCurrentYears = () => {
@@ -42,7 +41,6 @@ const handleSelectedYear = (e: ChangeEvent<HTMLSelectElement>) => {
 const handleSelectedMonth = (e: ChangeEvent<HTMLSelectElement>) => {
   setMonth(Number(e.target.value))
 }
-
 
   return (
     <div className='selectMonth'>

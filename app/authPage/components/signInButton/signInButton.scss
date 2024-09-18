@@ -1,26 +1,70 @@
 form {
   display: grid;
   place-items: center;
+
   .signInButton {
+    position: relative;
     display: flex;
+    justify-content: center;
     align-items: center;
+    width: 300px;
     gap: 5px;
     padding: 5px;
     transition: box-shadow .2s;
     box-shadow: 1px 1px 1px 3px #777777;
     border-radius: 5px;
     cursor: pointer;
+    letter-spacing: 5px;
+    opacity: 0;
+    animation: showSignInButton 2s 3s forwards;
+    font-weight: 700;
+    box-shadow: -1px -1px 2px 2px #777777;
 
     &:hover {
-      box-shadow:  -1px -1px 1px 1px #777777;
+      .logInText {
+        color: #fff;
+      }
+
+      &::before {
+        transform: scaleX(1);
+        transform-origin: left;
+      }
     }
 
-    .authSvg {
-      width: 40px;
-      height: 40px;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #000;
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: all 0.5s ease;
+      transition-property: transform;
     }
-    .logInText {
-      font-size: 24px;
+  }
+
+  .authSvg {
+    width: 40px;
+    height: 40px;
+  }
+
+  .logInText {
+    font-size: 24px;
+    z-index: 1;
+    transition: .2s;
+  }
+
+  @keyframes showSignInButton {
+    0% {
+      opacity: 0;
+    }
+
+    100% {
+      opacity: 1;
     }
   }
 }

@@ -1,6 +1,6 @@
-import { supabase } from '@/utils/supabase';
-import { Calendar } from './../components/calendar/Calendar';
+// supabase
 import { fetchSupabaseData } from '@/utils/supabaseFunk';
+// redux
 import { createSlice } from '@reduxjs/toolkit';
 import { DayInfo } from '../types/types';
 

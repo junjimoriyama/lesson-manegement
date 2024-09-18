@@ -1,10 +1,13 @@
-import "./auth.scss";
-import { auth } from "@/auth";
-import { SignInButton } from "./components/signInButton/SignInButton";
+// next
 import { redirect } from 'next/navigation';
-import { UserAvatar } from "./components/UserAvatar";
+// component
+import { SignInButton } from "./components/signInButton/SignInButton";
+import { MainLogoLogin } from "@/public/svg/svg";
+// function
+import { auth } from "@/auth";
+// style
+import "./auth.scss";
 
-import './auth.scss'
 
 const page = async () => {
   
@@ -15,8 +18,12 @@ const page = async () => {
   } 
   return (
     <div className="auth">
+      <div className="authLogoWrap">
+        
+      <MainLogoLogin/>
+      </div>
       <SignInButton />
-      <UserAvatar/>
+      {/* <UserAvatar/> */}
     </div>
   );
 };

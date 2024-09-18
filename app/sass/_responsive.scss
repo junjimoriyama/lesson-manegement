@@ -1,0 +1,12 @@
+$bps: (
+  sm: 428px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px
+);
+
+@mixin res($bp) {
+  @media(max-width: #{map-get($bps, $bp)}) {
+    @content
+  }
+}

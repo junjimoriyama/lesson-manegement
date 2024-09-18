@@ -1,9 +1,9 @@
 "use client";
 
-import { auth, signIn } from "@/auth";
-import "./signInButton.scss";
+// function
 import { handleSignIn } from "./actionSignIn";
-import { AuthIcon } from "@/public/svg/svg";
+// style
+import "./signInButton.scss";
 
 export const SignInButton = () => {
 
@@ -15,11 +15,9 @@ export const SignInButton = () => {
       >
         <button 
         className="signInButton" 
-        type="submit"
-        // onClick={() => handleSignInClick()}
-        >
-          <AuthIcon/>
-          <p className="logInText">Log in</p>
+        type="submit">
+          {/* <AuthIcon/> */}
+          <p className="logInText">LOGIN</p>
           
         </button>
       </form>

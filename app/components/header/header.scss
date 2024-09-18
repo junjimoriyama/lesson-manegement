@@ -1,4 +1,4 @@
-@import '../../variables';
+@import '../../sass/variables';
 
 header {
   position: fixed;
@@ -10,7 +10,8 @@ header {
   width: 100%;
   height: $header-height;
   padding: 0 20px;
-  background-color: #333;
+  background-color: #0051aa;
+  z-index: 100;
 
   .authAction {
     display: flex;
